@@ -48,12 +48,13 @@ class interface:
         self.conf.append(_motor)
 
 class motor:    
-    def __init__(self, _utils_c, _motorType, _bodyPart, _name, _position, _mode, _timing):
+    def __init__(self, _utils_c, _motorType, _bodyPart, _name, _position, _mode, _timing, _reverseMode = False):
         self.utils_c = _utils_c
         self.motorType = _motorType
         self.bodyPart = _bodyPart
         self.name = _name
         self.position = _position
+        self.reverseMode = _reverseMode
         self.mode = _mode
         self.mode_timing = _timing
         self.motor_t = motorThread(self.utils_c, self, 0.1)
@@ -88,6 +89,8 @@ class motorThread(Thread):
                     
     def move(self, _interface, _port, _move, _mode, _forceRefresh = False):
         #self.out("Move interface:"+str(_interface)+" port:"+str(_port)+" move:"+str(_move)+" force:"+str(_forceRefresh))
+        if INTERFACES_CONFIGURATION[_interface].conf[_port].reverseMode == True:
+            _move = 100 - _move
         if (_interface != -1) and (_port != -1) and (_move >= 0) and (_move <= 100):
             self.moveServo(_interface, _port, _move, _forceRefresh)
         elif _move == -1:
@@ -102,9 +105,10 @@ class motorThread(Thread):
             sleep(INTERFACES_CONFIGURATION[_interface].conf[_port].mode_timing)
             self.moveServo(_interface, _port, _move, _forceRefresh)
         elif int(_mode) == 2 :
-            sleep(1)
+            sleep(INTERFACES_CONFIGURATION[_interface].conf[_port].mode_timing)
+            INTERFACES_CONFIGURATION[_interface].instance.setPWM(_port, 0, 0)
             self.moveServo(_interface, _port, _move, True)
-            sleep(0.5)
+            sleep(INTERFACES_CONFIGURATION[_interface].conf[_port].mode_timing)
             INTERFACES_CONFIGURATION[_interface].instance.setPWM(_port, 0, 0)
         elif int(_mode) == 3 :
             sleep(1)
@@ -136,16 +140,16 @@ class robot:
     def __init__(self, _utils_c):
         print("Starting")
         interface0 = interface("interface0", 0X40)
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "thumb", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "forefinger", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "middlefinger", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "ringfinger", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "smallfinger", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "wrist", 50,1,0.5))
-        interface0.addMotor(motor(_utils_c, "HITEC805BBelbw", "LEFT_ARM", "elbow", 27,1,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_A", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_B", 50,0,0.5))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_Blade", 50,0,0.5))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "thumb", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "forefinger", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "middlefinger", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "ringfinger", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "smallfinger", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "wrist", 50,1,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HITEC805BBelbw", "LEFT_ARM", "elbow", 27,1,1.5,False))
+        interface0.addMotor(motor(_utils_c, "HKSHOULDERa", "LEFT_ARM", "shoulder_A", 50,0,1.5, True))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_B", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_Blade", 50,0,0.5, False))
         
         INTERFACES_CONFIGURATION.append(interface0)
         
@@ -192,10 +196,15 @@ MIN_PULSE_HKFINGER = 526
 ## HK finger Section
 
 ## HITEC805BB finger Section
-MAX_PULSE_HITEC805BBelbw = 1200
+# MAX_PULSE_HITEC805BBelbw = 1200
+MAX_PULSE_HITEC805BBelbw = 1300
 MIN_PULSE_HITEC805BBelbw = 485
 ## HITEC805BB finger Section
 
+## HK shoulder Section
+MAX_PULSE_HKSHOULDERa = 2000
+MIN_PULSE_HKSHOULDERa = 546
+## HK shoulder Section
 
 class hardwareIO(Thread):
     '''
