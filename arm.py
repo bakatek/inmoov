@@ -6,7 +6,7 @@ from storageCtrl import storageCtrl
 from utils import utils
 from ihmCtrl.checkWebReq import checkWebReq
 from hardwareIO.hardwareIO import hardwareIO
-
+from automation.automation import automation
 
 if __name__ == '__main__':
     pass
@@ -41,6 +41,8 @@ try:
     checkWebReq_t = checkWebReq(utils_c, hardwareIO_t, 0.1)
     checkWebReq_t.start()
     
+    automation_t = automation(utils_c, hardwareIO_t, 0.1)
+    automation_t.start()
     
     utils_c.echo("************************************************************************",True)
     try:

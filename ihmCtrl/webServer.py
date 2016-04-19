@@ -19,13 +19,26 @@ else:
 class MyRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
         allCommands = storageCtrl.getAuthorizedCommands()
+        if self.path.split("?")[0] == "/www/listMacros":
+            DUMMY_RESPONSE = "<xml>"
+            for macros in storageCtrl.getAuthorizedMacros():
+                DUMMY_RESPONSE = DUMMY_RESPONSE+"<macro>"+macros+"</macro>"
+            DUMMY_RESPONSE = DUMMY_RESPONSE+"</xml>"
+            self.send_response(200)
+            self.send_header("Content-type", "text/xml")
+            self.send_header("Content-length", len(DUMMY_RESPONSE))
+            self.end_headers()
+            self.wfile.write(DUMMY_RESPONSE)
         for command in allCommands:
             splited = self.path.split("?")
-            # if len(splited) > 1:
-                # print("Command="+splited[0]+" =?= /www/"+command+" Params="+splited[1])
             if splited[0] == '/www/'+command:
                 storageCtrl.pushWebRequest(splited[0], splited[1])
-                # self.path = '/www/index.html'
+                self.path = '/www/dummy.bmp'
+        for macro in storageCtrl.getAuthorizedMacros():
+            splited = self.path.split("?")
+            if splited[0] == "/www/"+macro:
+                print("MACRO TEST "+macro)
+                storageCtrl.pushAutomationRequest(macro)
                 self.path = '/www/dummy.bmp'
         return SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
     

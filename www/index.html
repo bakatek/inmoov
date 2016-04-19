@@ -13,6 +13,7 @@
 <img id="shoudler_A_dummy" src="./move?LEFT_ARM|shoudler_A|50" style="display:none"/>
 <img id="shoudler_B_dummy" src="./move?LEFT_ARM|shoudler_B|50" style="display:none"/>
 <img id="shoudler_Blade_dummy" src="./move?LEFT_ARM|shoudler_Blade|50" style="display:none"/>
+<img id="macro_dummy" src="" style="display:none"/>
 
 <!--img style="transform:scale(0.5);margin-top:-125px;margin-left:-215px;" src="./www/hand-small.png" alt="" usemap="#Map" /-->
 <div>
@@ -49,10 +50,37 @@
     <area alt="" title="" href="#5" shape="rect" coords="679,551,833,173" />
     <area alt="" title="" href="#1" shape="rect" coords="16,486,370,842" />
 </map-->
+<br><br>
+Macros:<div id="macros"></div>
     </div>
 </div>
 
 <script type="text/javascript">
+    var Connect = new XMLHttpRequest();
+
+    Connect.open("GET", "./listMacros", false);
+    Connect.setRequestHeader("Content-Type", "text/xml");
+    Connect.send(null);
+
+    // Place the response in an XML document.
+    var TheDocument = Connect.responseXML;
+
+    // Place the root node in an element.
+    var allMacros = TheDocument.childNodes[0];
+
+    for (var i = 0; i < allMacros.children.length; i++)
+    {
+        var one_macro = allMacros.children[i];
+            addMacro(one_macro.childNodes[0].nodeValue);
+    }
+function addMacro(_macroName){
+    block = '&nbsp;&nbsp;<input type="button" onclick="macro(\''+_macroName+'\')" value='+_macroName+'>';
+    document.getElementById("macros").innerHTML += block
+}
+function macro(_macroName){
+    document.getElementById("macro_dummy").src = "./"+_macroName+"?"+Math.random();
+}
+
 function changeMode(part, mode){
     document.getElementById(part+"_dummy").src = "./move?LEFT_ARM|"+part+"|"+document.getElementById(part).innerHTML+"|"+mode+'|'+Math.random();
 }

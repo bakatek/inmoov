@@ -34,14 +34,54 @@ class storageCtrl(object):
         storageCtrl.threadToStop = []
         storageCtrl.fingerMoveReq = []
         storageCtrl.webRequests = []
+        storageCtrl.authorizedMacros = []
         storageCtrl.stopAcheived = 0
         storageCtrl.stopRequested = False
         storageCtrl.setStopAcheived = False
+        storageCtrl.automationMacros = {}
+        storageCtrl.automationPath = "./automation/datas/"
+        storageCtrl.automationRequests = []
         
         if platform.python_version().find("3.") != -1:
             storageCtrl.setPlatformVersion(3)
         else:
             storageCtrl.setPlatformVersion(2)
+            
+    
+    @staticmethod
+    def pushAutomationRequest(_macro):
+        # print("pushAutomationRequest" + _macro)
+        storageCtrl.automationRequests.append(_macro)
+    
+    @staticmethod
+    def getAutomationRequest():
+        # print("getAutomationRequest")
+        # pprint.pprint(storageCtrl.automationRequests)
+        if len(storageCtrl.automationRequests) > 0:
+            return storageCtrl.automationRequests.pop(0)
+        else:
+            return None
+    
+            
+            
+    @staticmethod
+    def addAutomationMacro(_addMacro):
+        print("AddMacro "+_addMacro['name'])
+        storageCtrl.automationMacros[_addMacro['name']] = _addMacro['datas']
+        for i in storageCtrl.automationMacros:
+            print("Check "+i)
+
+    @staticmethod
+    def getAutomationMacro(_macroName):
+        print("getAutomationMacro "+_macroName)
+        try:
+            return storageCtrl.automationMacros[_macroName]
+        except:
+            return None
+            
+    @staticmethod
+    def getAutomationPath():
+        return storageCtrl.automationPath
             
     @staticmethod
     def addThreadToStop(_addThread):
@@ -69,6 +109,15 @@ class storageCtrl(object):
     @staticmethod
     def getAuthorizedCommands():
         return storageCtrl.authorizedCommands
+
+    @staticmethod
+    def getAuthorizedMacros():
+        return storageCtrl.authorizedMacros
+        
+    @staticmethod
+    def addAuthorizeMacro(_macro):
+        storageCtrl.authorizedMacros.append(_macro)
+    
 
     @staticmethod
     def pushWebRequest(_command, _params):
