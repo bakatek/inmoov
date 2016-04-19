@@ -1,0 +1,39 @@
+[
+    {"move": [
+        {
+            "loc": "LEFT_ARM",
+            "part": "thumb",
+            "mode": "1",
+            "pos": "80"
+        }
+    ]},
+    {"wait": "1"},
+    {"move": [
+        {
+            "loc": "LEFT_ARM",
+            "part": "thumb",
+            "mode": "1",
+            "pos": "50"
+        }
+    ]},
+    {"wait":"1"},
+    {"move": [
+        {
+            "loc": "LEFT_ARM",
+            "part": "thumb",
+            "mode": "1",
+            "pos": "80"
+        }
+    ]},
+    {"wait": "1"},
+    {"move": [
+        {
+            "loc": "LEFT_ARM",
+            "part": "thumb",
+            "mode": "1",
+            "pos": "50"
+        }
+    ]},
+    {"wait":"1"}
+    
+]
