@@ -140,15 +140,16 @@ class robot:
     def __init__(self, _utils_c):
         print("Starting")
         interface0 = interface("interface0", 0X40)
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "thumb", 50,0,0.5, False))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "forefinger", 50,0,0.5, False))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "middlefinger", 50,0,0.5, False))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "ringfinger", 50,0,0.5, False))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "smallfinger", 50,0,0.5, False))
+        #_motorType, _bodyPart, _name, _position, _mode, _timing, _reverseMode = False
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "thumb", 50,2,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "forefinger", 50,2,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "middlefinger", 50,2,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "ringfinger", 50,2,0.5, False))
+        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "smallfinger", 50,2,0.5, False))
         interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "wrist", 50,1,0.5, False))
-        interface0.addMotor(motor(_utils_c, "HITEC805BBelbw", "LEFT_ARM", "elbow", 27,1,1.5,False))
+        interface0.addMotor(motor(_utils_c, "HITEC805BBelbw", "LEFT_ARM", "elbow", 27,2,1.5,True))
         interface0.addMotor(motor(_utils_c, "HKSHOULDERa", "LEFT_ARM", "shoulder_A", 50,0,1.5, True))
-        interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_B", 50,0,0.5, False))
+        interface0.addMotor(motor(_utils_c, "QS40KG", "LEFT_ARM", "shoulder_B", 50,0,2.5, True))
         interface0.addMotor(motor(_utils_c, "HKFINGER", "LEFT_ARM", "shoulder_Blade", 50,0,0.5, False))
         
         INTERFACES_CONFIGURATION.append(interface0)
@@ -159,6 +160,7 @@ class robot:
             try:
                 INTERFACES_CONFIGURATION[i].instance = PWM(INTERFACES_CONFIGURATION[i].i2c_add)
             except:
+                print("ERROR in init i2c_add")
                 pass
 
     def moveTopLvl(self, _bodyPart, _part, _move, _mode, _forceRefresh = False):
@@ -197,13 +199,22 @@ MIN_PULSE_HKFINGER = 526
 
 ## HITEC805BB finger Section
 # MAX_PULSE_HITEC805BBelbw = 1200
-MAX_PULSE_HITEC805BBelbw = 1300
+MAX_PULSE_HITEC805BBelbw = 1200
 MIN_PULSE_HITEC805BBelbw = 485
+## HITEC805BB finger Section
+# MAX_PULSE_HITEC805BBelbw = 1200
+MAX_PULSE_HITEC805BB = 1300
+MIN_PULSE_HITEC805BB = 485
 ## HITEC805BB finger Section
 
 ## HK shoulder Section
 MAX_PULSE_HKSHOULDERa = 2000
 MIN_PULSE_HKSHOULDERa = 546
+## HK shoulder Section
+
+## HK shoulder Section
+MAX_PULSE_QS40KG = 2070
+MIN_PULSE_QS40KG = 540
 ## HK shoulder Section
 
 class hardwareIO(Thread):

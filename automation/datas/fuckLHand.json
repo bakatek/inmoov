@@ -4,31 +4,31 @@
             "loc": "LEFT_ARM",
             "part": "thumb",
             "mode": "0",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "forefinger",
             "mode": "0",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "middlefinger",
             "mode": "0",
-            "pos": "0"
+            "pos": "20"
         },
         {
             "loc": "LEFT_ARM",
             "part": "ringfinger",
             "mode": "0",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "smallfinger",
             "mode": "0",
-            "pos": "0"
+            "pos": "100"
         }
     ]},
     {"wait": "1"},
@@ -37,31 +37,31 @@
             "loc": "LEFT_ARM",
             "part": "thumb",
             "mode": "1",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "forefinger",
             "mode": "1",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "middlefinger",
             "mode": "1",
-            "pos": "0"
+            "pos": "20"
         },
         {
             "loc": "LEFT_ARM",
             "part": "ringfinger",
             "mode": "1",
-            "pos": "0"
+            "pos": "100"
         },
         {
             "loc": "LEFT_ARM",
             "part": "smallfinger",
             "mode": "1",
-            "pos": "0"
+            "pos": "100"
         }
         ]
     },
